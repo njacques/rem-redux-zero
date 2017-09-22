@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import '../components/index.css';
+import { render } from 'react-dom';
+
 import App from '../components/App';
-import registerServiceWorker from '../components/registerServiceWorker';
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<App />, document.getElementById('root'));
+  render(<App/>, document.querySelector('#root'));
 });
-
-registerServiceWorker();
