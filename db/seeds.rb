@@ -6,4 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-10.times { Item.create!(name: "Item", description: "I am a description.") }
+
+# https://stackoverflow.com/questions/19636196/sort-in-ruby-a-json-array-of-hashes
+# json = ActiveSupport::JSON.decode(File.read('db/seeds/events.json'))
+# p json.sort_by { |json| json['id'].to_i }
+
+json = ActiveSupport::JSON.decode(File.read('db/seeds/events-sorted-normalized.json'))
+json.each do |record|
+  Event.create!(record)
+end

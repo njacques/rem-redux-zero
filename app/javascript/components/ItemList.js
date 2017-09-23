@@ -5,15 +5,14 @@ class ItemList extends React.Component{
   constructor(props) {
     super(props)
     this.state = {
-      items: []
+      events: []
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3002/api/v1/items.json')
+    axios.get('http://localhost:3002/api/v1/events.json')
     .then(response => {
-      this.setState({items: response.data})
-      console.log(this.state)
+      this.setState({events: response.data})
     })
     .catch(error => console.log(error))
   }
@@ -21,10 +20,10 @@ class ItemList extends React.Component{
   render() {
     return(
       <ul>
-       {this.state.items.map((item) => {
+       {this.state.events.map((event) => {
           return (
-            <li key={item.id}>
-              {item.name}: {item.description}
+            <li key={event.id}>
+              {event.event_date} - {event.event_type}
             </li>
           )
         })}
