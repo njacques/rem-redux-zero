@@ -1,5 +1,6 @@
 class Api::V1::EventsController < ApplicationController
   respond_to :json
+  before_action :authenticate_request!, except: [:index]
 
   def index
     respond_with Event.all
