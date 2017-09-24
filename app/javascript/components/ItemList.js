@@ -10,7 +10,7 @@ class ItemList extends React.Component{
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3002/api/v1/events.json')
+    axios.get('http://localhost:3000/api/v1/events.json')
     .then(response => {
       this.setState({events: response.data})
     })

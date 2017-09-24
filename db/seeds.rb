@@ -11,6 +11,7 @@
 # json = ActiveSupport::JSON.decode(File.read('db/seeds/events.json'))
 # p json.sort_by { |json| json['id'].to_i }
 
+# https://gist.github.com/shvetsovdm/6317604
 json = ActiveSupport::JSON.decode(File.read('db/seeds/events-sorted-normalized.json'))
 json.each do |record|
   Event.create!(record)

@@ -6,6 +6,10 @@ class Api::V1::EventsController < ApplicationController
     respond_with Event.all
   end
 
+  def show
+    respond_with Event.find(params[:id])
+  end
+
   def create
     respond_with :api, :v1, Event.create(Event_params)
   end
