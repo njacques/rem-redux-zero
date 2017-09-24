@@ -1,13 +1,8 @@
+/* global sessionStorage */
+
 import React from 'react';
 import axios from 'axios';
-
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
 import ItemList from './ItemList';
@@ -15,51 +10,43 @@ import LogInForm from './LogInForm';
 import PrivateRoute from './PrivateRoute';
 import PropsRoute from './PropsRoute';
 
-class App extends React.Component{
+class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      authed: null
-    }
+      authed: null,
+    };
 
-    this.handler = this.handler.bind(this)
+    this.handler = this.handler.bind(this);
+  }
+
+  componentDidMount() {
+    this.isAuthed();
   }
 
   // Pass this to LoginForm component, so that it can set authed state in parent component
   handler() {
     this.setState({
-      authed: true
-    })
-  }
-
-  componentDidMount() {
-    console.log("did")
-    this.isAuthed();
+      authed: true,
+    });
   }
 
   isAuthed() {
-    // Grab token from storage and asscertain if it's valid
-    //
     const token = sessionStorage.getItem('jwt');
 
-    axios.get("http://localhost:3000/api/v1/events/1.json", {
-      headers: { Authorization: "Bearer " + token }
+    axios.get('http://localhost:3000/api/v1/events/1.json', {
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then(response => {
-      this.setState({authed: true});
-      console.log(this.state.authed)
-    })
-    .catch(error => {
-      this.setState({authed: false});
-      console.log(error)
-    })
+      .then(() => {
+        this.setState({ authed: true });
+      })
+      .catch(() => {
+        this.setState({ authed: false });
+      });
   }
 
   render() {
-    console.log("render")
-    if(this.state.authed === null){
-      return null;
-    }
+    if (this.state.authed === null) return null;
 
     return (
       <Router>
