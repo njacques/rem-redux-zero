@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root to: 'site#index'
+  get 'login', to: 'site#index'
 
   resources :users, only: :create do
     collection do

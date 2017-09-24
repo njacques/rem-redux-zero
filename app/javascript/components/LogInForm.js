@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios'
+import { withRouter } from "react-router-dom";
 
 class LogInForm extends React.Component{
   constructor(props) {
@@ -21,8 +22,9 @@ class LogInForm extends React.Component{
     })
     .then(response => {
       if(response.status === 200){
+        this.props.handler();
         sessionStorage.setItem('jwt', response.data.auth_token);
-        location.reload();
+        this.props.history.push("/");
       }
     })
     .catch(error => {

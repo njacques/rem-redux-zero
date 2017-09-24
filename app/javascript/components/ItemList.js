@@ -19,15 +19,19 @@ class ItemList extends React.Component{
 
   render() {
     return(
-      <ul>
-       {this.state.events.map((event) => {
-          return (
-            <li key={event.id}>
-              {event.event_date} - {event.event_type}
-            </li>
-          )
-        })}
-      </ul>
+      <div>
+        <h1>IGSN Calendar Editor</h1>
+
+        <ul>
+         {this.state.events.map((event) => {
+            return (
+              <li key={event.id}>
+                {event.event_date} - {event.event_type}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
     )
   }
 }
