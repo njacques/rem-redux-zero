@@ -24,8 +24,9 @@ class LogInForm extends React.Component {
     })
       .then((response) => {
         if (response.status === 200) {
-          this.props.loginHandler();
+          this.props.loginHandler(response.data.email);
           sessionStorage.setItem('jwt', response.data.auth_token);
+          sessionStorage.setItem('currentUser', response.data.email);
           this.props.history.push('/');
         }
       })

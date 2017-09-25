@@ -16,15 +16,20 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.clearToken}>Logout</button>
-      </div>
+      <header>
+        <span>
+          Logged in as: {this.props.currentUser}
+          <button className='logoutButton' onClick={this.clearToken}>Logout</button>
+        </span>
+        <h1>IGSN Calendar Editor</h1>
+      </header>
     );
   }
 }
 
 NavBar.propTypes = {
   logoutHandler: PropTypes.func.isRequired,
+  currentUser: PropTypes.string.isRequired,
 };
 
 export default NavBar;

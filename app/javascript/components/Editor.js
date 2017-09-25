@@ -23,9 +23,10 @@ class Editor extends React.Component {
   render() {
     return (
       <div>
-        <NavBar logoutHandler={this.props.logoutHandler} />
-
-        <h1>IGSN Calendar Editor</h1>
+        <NavBar
+          currentUser={this.props.currentUser}
+          logoutHandler={this.props.logoutHandler}
+        />
 
         <ul>
           {
@@ -43,6 +44,7 @@ class Editor extends React.Component {
 
 Editor.propTypes = {
   logoutHandler: PropTypes.func.isRequired,
+  currentUser: PropTypes.string.isRequired,
 };
 
 export default Editor;

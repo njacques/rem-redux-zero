@@ -38,3 +38,12 @@
 .login-form button {
   padding: 5px 8px;
 }
+
+header span{
+  float: right;
+  margin-top: 8px;
+}
+
+.logoutButton {
+  margin-left: 12px;
+}

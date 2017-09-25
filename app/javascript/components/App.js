@@ -15,6 +15,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       authed: null,
+      currentUser: null,
     };
 
     this.loginHandler = this.loginHandler.bind(this);
@@ -25,29 +26,40 @@ class App extends React.Component {
     this.isAuthed();
   }
 
-  loginHandler() {
+  loginHandler(email) {
     this.setState({
       authed: true,
+      currentUser: email,
     });
   }
 
   logoutHandler() {
     this.setState({
       authed: false,
+      currentUser: null,
     });
   }
 
   isAuthed() {
     const token = sessionStorage.getItem('jwt');
+    const currentUser = sessionStorage.getItem('currentUser');
 
-    axios.get('http://localhost:3000/api/v1/events/1.json', {
-      headers: { Authorization: `Bearer ${token}` },
+    axios.post('http://localhost:3000/users/valid_token', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(() => {
-        this.setState({ authed: true });
+        this.setState({
+          authed: true,
+          currentUser: currentUser,
+        });
       })
       .catch(() => {
-        this.setState({ authed: false });
+        this.setState({
+          authed: false,
+          currentUser: null,
+        });
       });
   }
 
@@ -68,6 +80,7 @@ class App extends React.Component {
             exact
             component={Editor}
             authed={this.state.authed}
+            currentUser={this.state.currentUser}
             logoutHandler={this.logoutHandler}
           />
         </div>
