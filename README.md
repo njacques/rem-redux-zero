@@ -2,7 +2,7 @@
 
 2017.09.17
 
-> With the release of Rails 5.1, Rails now has native support for using React via the webpacker gem. 
+> With the release of Rails 5.1, Rails now has native support for using React via the webpacker gem.
 
 This app integrates the [Create React App](https://github.com/facebookincubator/create-react-app) starter example with a simple API-based Rails project, using the [webpacker gem](https://github.com/rails/webpacker).
 
@@ -64,6 +64,3 @@ If the `node_modules` folder is deleteed between times, you need to run `rails w
 - https://medium.com/react-on-rails/free-tutorial-how-to-use-react-with-webpacker-and-rails-5-1-92af8e8d9d63
 - https://github.com/rails/webpacker/issues/317
 - https://x-team.com/blog/get-in-full-stack-shape-with-rails-5-1-webpacker-and-reactjs/
-
-
-

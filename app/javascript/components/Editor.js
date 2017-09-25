@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-class ItemList extends React.Component {
+import NavBar from './NavBar';
+
+class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +23,8 @@ class ItemList extends React.Component {
   render() {
     return (
       <div>
+        <NavBar logoutHandler={this.props.logoutHandler} />
+
         <h1>IGSN Calendar Editor</h1>
 
         <ul>
@@ -36,4 +41,8 @@ class ItemList extends React.Component {
   }
 }
 
-export default ItemList;
+Editor.propTypes = {
+  logoutHandler: PropTypes.func.isRequired,
+};
+
+export default Editor;

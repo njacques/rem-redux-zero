@@ -2,14 +2,21 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ component: Component, authed, ...rest }) => (
+const renderMergedProps = (component, ...rest) => {
+  const finalProps = Object.assign({}, ...rest);
+  return (
+    React.createElement(component, finalProps)
+  );
+};
+
+const PrivateRoute = ({ component, authed, ...rest }) => (
   <Route
     {...rest}
     render={
-      props => (
+      routeProps => (
         authed === true
-          ? <Component {...props} />
-          : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+          ? renderMergedProps(component, routeProps, rest)
+          : <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }} />
       )
     }
   />

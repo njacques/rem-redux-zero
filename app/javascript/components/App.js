@@ -5,7 +5,7 @@ import axios from 'axios';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
-import ItemList from './ItemList';
+import Editor from './Editor';
 import LogInForm from './LogInForm';
 import PrivateRoute from './PrivateRoute';
 import PropsRoute from './PropsRoute';
@@ -17,17 +17,23 @@ class App extends React.Component {
       authed: null,
     };
 
-    this.handler = this.handler.bind(this);
+    this.loginHandler = this.loginHandler.bind(this);
+    this.logoutHandler = this.logoutHandler.bind(this);
   }
 
   componentDidMount() {
     this.isAuthed();
   }
 
-  // Pass this to LoginForm component, so that it can set authed state in parent component
-  handler() {
+  loginHandler() {
     this.setState({
       authed: true,
+    });
+  }
+
+  logoutHandler() {
+    this.setState({
+      authed: false,
     });
   }
 
@@ -51,8 +57,19 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <PropsRoute path='/login' component={LogInForm} handler={this.handler} />
-          <PrivateRoute authed={this.state.authed} path='/' exact component={ItemList} />
+          <PropsRoute
+            path='/login'
+            component={LogInForm}
+            loginHandler={this.loginHandler}
+          />
+
+          <PrivateRoute
+            path='/'
+            exact
+            component={Editor}
+            authed={this.state.authed}
+            logoutHandler={this.logoutHandler}
+          />
         </div>
       </Router>
     );

@@ -8,8 +8,8 @@ class LogInForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'jchibbard@gmail.com',
+      password: 'password',
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -24,7 +24,7 @@ class LogInForm extends React.Component {
     })
       .then((response) => {
         if (response.status === 200) {
-          this.props.handler();
+          this.props.loginHandler();
           sessionStorage.setItem('jwt', response.data.auth_token);
           this.props.history.push('/');
         }
@@ -74,8 +74,8 @@ class LogInForm extends React.Component {
 }
 
 LogInForm.propTypes = {
-  history: PropTypes.string.isRequired,
-  handler: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
+  loginHandler: PropTypes.func.isRequired,
 };
 
 export default LogInForm;
