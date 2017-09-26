@@ -47,3 +47,7 @@ header span{
 .logoutButton {
   margin-left: 12px;
 }
+
+.formErrors p {
+  color: red;
+}

@@ -10,6 +10,7 @@ class LogInForm extends React.Component {
     this.state = {
       email: 'jchibbard@gmail.com',
       password: 'password',
+      loginError: null,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -17,7 +18,9 @@ class LogInForm extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
-  handleLogin() {
+  handleLogin(e) {
+    e.preventDefault();
+
     axios.post('http://localhost:3000/users/login', {
       email: this.state.email,
       password: this.state.password,
@@ -32,7 +35,7 @@ class LogInForm extends React.Component {
       })
       .catch((error) => {
         if (error.response.status === 401) {
-          alert('Not Authorized');
+          this.setState({ loginError: 'Invalid username or password' });
         }
       });
   }
@@ -51,7 +54,13 @@ class LogInForm extends React.Component {
         <div className='row'>
           <h1>Please Login</h1>
 
-          <form className='login-form' onSubmit={this.validateUser}>
+          <div className='formErrors'>
+            <p>
+              {this.state.loginError}
+            </p>
+          </div>
+
+          <form className='login-form' onSubmit={this.handleLogin}>
             <input
               type='email'
               placeholder='Username'
@@ -66,7 +75,7 @@ class LogInForm extends React.Component {
               onChange={this.handlePasswordChange}
             />
 
-            <button type='button' onClick={this.handleLogin}>Login</button>
+            <button type='submit'>Login</button>
           </form>
         </div>
       </div>
