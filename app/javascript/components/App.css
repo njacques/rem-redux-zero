@@ -1,3 +1,29 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,300,400italic);
+@import url(https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700);
+
+/* Reset */
+ul, ol {
+  list-style: none;
+}
+
+ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, body, html, p, blockquote, fieldset, input, dl, dt, dd, figure, figcaption {
+  margin: 0;
+  padding: 0;
+}
+
+header, section, article, nav, footer, hgroup, details, summary, figure {
+  display: block;
+}
+
+/* Generic */
+body {
+  font-size: 15px;
+  color: #222222;
+  font-family: Roboto;
+  margin: 0 0 65px;
+}
+
+/* Login */
 .flex-container {
   height: 100vh;
   padding: 0;
@@ -39,15 +65,103 @@
   padding: 5px 8px;
 }
 
+.formErrors p {
+  color: red;
+  margin: 10px 0 12px 0;
+}
+
+/* NavBar */
+header {
+  background: #f57011;
+  height: 47px;
+  padding-top: 8px;
+}
+
+header nav {
+  width: 88%;
+  margin: 0 auto;
+}
+
+header h1 a {
+  font-size: 28px;
+  font-family: "Maven Pro";
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+}
+
+header h1 a:hover {
+  text-decoration: underline;
+}
+
 header span{
   float: right;
   margin-top: 8px;
+  color: white;
+}
+
+header span a {
+  color: white;
+  margin-left: 6px;
 }
 
 .logoutButton {
   margin-left: 12px;
 }
 
-.formErrors p {
-  color: red;
+/* Events List */
+section {
+  margin: 0 auto;
+  width: 88%;
+}
+
+.events-container {
+  margin: 30px 75px 0 0;
+  width: 25%;
+  background: #f6f6f6;
+  float: left;
+  padding: 15px 20px 20px;
+}
+
+h2{
+  font-size: 20px;
+}
+
+h2 a{
+  color: #236fff;
+  font-size: 15px;
+  float: right;
+  font-weight: normal;
+  margin: 3px 0 0 0;text-decoration: none;
+}
+
+h2 a:hover{
+  text-decoration: underline;
+}
+
+input.search{
+  width: 97%;
+  margin: 15px 0;
+  padding: 2px 0 3px 3px;
+}
+
+.events-list li:hover, li.active {
+  background: #f8e5ce;
+}
+
+.events-list span{
+  display: block;
+  border-bottom: 1px solid #dddddd;
+  padding: 8px 6px 10px;
+  cursor: pointer;
+  outline: 0;
+}
+
+/* New Event Form */
+.new-event{
+  margin-top: 35px;
+}
+
+.new-event h2{
+  font-size: 26px;
 }

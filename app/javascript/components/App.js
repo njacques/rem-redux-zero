@@ -2,7 +2,7 @@
 
 import React from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Switch, BrowserRouter as Router } from 'react-router-dom';
 
 import './App.css';
 import Editor from './Editor';
@@ -38,6 +38,9 @@ class App extends React.Component {
       authed: false,
       currentUser: null,
     });
+
+    sessionStorage.removeItem('jwt');
+    sessionStorage.removeItem('currentUser');
   }
 
   isAuthed() {
@@ -52,7 +55,7 @@ class App extends React.Component {
       .then(() => {
         this.setState({
           authed: true,
-          currentUser: currentUser,
+          currentUser,
         });
       })
       .catch(() => {
@@ -69,20 +72,20 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <PropsRoute
-            path='/login'
-            component={LogInForm}
-            loginHandler={this.loginHandler}
-          />
-
-          <PrivateRoute
-            path='/'
-            exact
-            component={Editor}
-            authed={this.state.authed}
-            currentUser={this.state.currentUser}
-            logoutHandler={this.logoutHandler}
-          />
+          <Switch>
+            <PropsRoute
+              path='/login'
+              component={LogInForm}
+              loginHandler={this.loginHandler}
+            />
+            <PrivateRoute
+              path='/'
+              component={Editor}
+              authed={this.state.authed}
+              currentUser={this.state.currentUser}
+              logoutHandler={this.logoutHandler}
+            />
+          </Switch>
         </div>
       </Router>
     );

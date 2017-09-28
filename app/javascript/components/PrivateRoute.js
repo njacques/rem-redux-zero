@@ -25,7 +25,7 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
   authed: PropTypes.bool.isRequired,
-  location: PropTypes.string,
+  location: PropTypes.shape(),
 };
 
 PrivateRoute.defaultProps = {

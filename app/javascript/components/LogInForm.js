@@ -1,4 +1,4 @@
-/* global sessionStorage, alert */
+/* global sessionStorage */
 
 import React from 'react';
 import axios from 'axios';
