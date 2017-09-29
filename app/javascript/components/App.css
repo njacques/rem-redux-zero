@@ -149,8 +149,10 @@ input.search{
   background: #f8e5ce;
 }
 
-.events-list span{
+.events-list a{
   display: block;
+  color: black;
+  text-decoration: none;
   border-bottom: 1px solid #dddddd;
   padding: 8px 6px 10px;
   cursor: pointer;
@@ -158,10 +160,15 @@ input.search{
 }
 
 /* New Event Form */
-.new-event{
+.event-container{
   margin-top: 35px;
 }
 
-.new-event h2{
+.event-container h2{
   font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.event-container ul li{
+  margin-bottom: 15px;
 }

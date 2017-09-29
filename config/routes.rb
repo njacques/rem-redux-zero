@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root to: 'site#index'
   get 'login', to: 'site#index'
   get 'new', to: 'site#index'
+  get 'events/:id', to: 'site#index'
 
   resources :users, only: :create do
     collection do
