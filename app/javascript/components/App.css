@@ -159,7 +159,7 @@ input.search{
   outline: 0;
 }
 
-/* New Event Form */
+/* Event Container */
 .event-container{
   margin-top: 35px;
 }
@@ -171,4 +171,41 @@ input.search{
 
 .event-container ul li{
   margin-bottom: 15px;
+}
+
+.event-container h2 a{
+  float: none;
+  padding-left: 15px;
+}
+
+/* Edit */
+label {
+  display: inline-block;
+  vertical-align: top;
+  text-align: right;
+  width: 100px;
+  margin-right: 6px;
+  padding-top: 3px;
+}
+
+input, textarea {
+  padding: 2px 0 3px 3px;
+  width: 400px;
+  margin-bottom: 10px;
+}
+
+button[type='submit'] {
+  background: #f57011;
+  border: none;
+  padding: 5px 25px 8px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+.form-actions{
+  float: left;
+  margin-left: 106px;
+  margin-top: 12px;
 }

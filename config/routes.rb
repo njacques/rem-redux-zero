@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'login', to: 'site#index'
   get 'new', to: 'site#index'
   get 'events/:id', to: 'site#index'
+  get 'events/:id/edit', to: 'site#index'
 
   resources :users, only: :create do
     collection do

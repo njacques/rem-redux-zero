@@ -8,8 +8,8 @@ class LogInForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'jchibbard@gmail.com',
-      password: 'password',
+      email: 'user@example.com',
+      password: 'user',
       loginError: null,
     };
 
@@ -49,6 +49,7 @@ class LogInForm extends React.Component {
   }
 
   render() {
+
     return (
       <div className='flex-container'>
         <div className='row'>

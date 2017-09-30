@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import Event from './Event';
 import NewEvent from './NewEvent';
+import EditEvent from './EditEvent';
 import PropsRoute from './PropsRoute';
 
 class Editor extends React.Component {
@@ -27,7 +28,11 @@ class Editor extends React.Component {
         // When refreshing the page we need to repopulate activeItem, as otherwise
         // no event prop will be passed to the Event component.
         if (this.state.activeItem === null) {
-          const activeItem = Number(this.props.location.pathname.replace('/events/', ''));
+          const activeItem = Number(
+            this.props.location.pathname
+              .replace('/events/', '')
+              .replace('/edit', '')
+          );
           this.setState({ activeItem });
         }
       })
@@ -75,7 +80,6 @@ class Editor extends React.Component {
                   >
                     <Link
                       to={`/events/${event.id}`}
-                      tabIndex='0'
                       onClick={() => this.toggleActiveItem(event)}
                     >
                       {event.event_date} - {event.event_type}
@@ -87,12 +91,19 @@ class Editor extends React.Component {
           </div>
         </section>
         <div className='event-container'>
-          <Route path='/new' component={NewEvent} />
-          <PropsRoute
-            path='/events/:id'
-            component={Event}
-            event={this.state.events[this.state.activeItem - 1]}
-          />
+          <Switch>
+            <Route path='/new' component={NewEvent} />
+            <PropsRoute
+              path='/events/:id/edit'
+              component={EditEvent}
+              event={this.state.events[this.state.activeItem - 1]}
+            />
+            <PropsRoute
+              path='/events/:id'
+              component={Event}
+              event={this.state.events[this.state.activeItem - 1]}
+            />
+          </Switch>
         </div>
       </div>
     );
@@ -109,4 +120,4 @@ Editor.defaultProps = {
   location: undefined,
 };
 
-export default Editor;
+export default withRouter(Editor);

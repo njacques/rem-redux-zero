@@ -22,6 +22,6 @@ end
 
 # USERS
 User.create!([
-  { email: "jchibbard@gmail.com", password: "password", password_confirmation: 'password' },
-  { email: "mr_nice66@yahoo.com", password: "drugs", password_confirmation: 'drugs' }
+  { email: "user@example.com", password: "user", password_confirmation: 'user' },
+  { email: "admin@example.com", password: "admin", password_confirmation: 'admin' }
 ])

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const New = () => (
+const NewEvent = () => (
   <h2>New Event</h2>
 );
 
-export default New;
+export default NewEvent;
