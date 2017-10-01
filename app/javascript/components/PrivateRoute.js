@@ -1,35 +1,76 @@
+/* global sessionStorage */
+
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
 
-const renderMergedProps = (component, ...rest) => {
-  const finalProps = Object.assign({}, ...rest);
-  return (
-    React.createElement(component, finalProps)
-  );
-};
+class PrivateRoute extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      authed: null,
+    };
+  }
 
-const PrivateRoute = ({ component, authed, ...rest }) => (
-  <Route
-    {...rest}
-    render={
-      routeProps => (
-        authed === true
-          ? renderMergedProps(component, routeProps, rest)
-          : <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }} />
-      )
-    }
-  />
-);
+  componentDidMount() {
+    this.isAuthed();
+  }
+
+  isAuthed() {
+    const token = sessionStorage.getItem('jwt');
+
+    axios.post('http://localhost:3000/users/valid_token', {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(() => {
+        this.setState({
+          authed: true,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          authed: false,
+        });
+      });
+  }
+
+  render() {
+    if (this.state.authed === null) return null;
+
+    const { component: Component, ...rest } = this.props;
+
+    const renderRoute = (props) => {
+      if (this.state.authed) {
+        return (
+          <Component {...props} />
+        );
+      }
+
+      const to = {
+        pathname: '/login',
+        state: { from: props.location },
+      };
+
+      return (
+        <Redirect to={to} />
+      );
+    };
+
+    return (
+      <Route {...rest} render={renderRoute} />
+    );
+  }
+}
 
 PrivateRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-  authed: PropTypes.bool.isRequired,
-  location: PropTypes.shape(),
+  component: PropTypes.func,
 };
 
 PrivateRoute.defaultProps = {
-  location: undefined,
+  component: undefined,
 };
 
 export default PrivateRoute;

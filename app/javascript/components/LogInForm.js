@@ -3,11 +3,13 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 class LogInForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
+      redirectToReferrer: false,
       email: 'user@example.com',
       password: 'user',
       loginError: null,
@@ -27,10 +29,9 @@ class LogInForm extends React.Component {
     })
       .then((response) => {
         if (response.status === 200) {
-          this.props.loginHandler(response.data.email);
           sessionStorage.setItem('jwt', response.data.auth_token);
           sessionStorage.setItem('currentUser', response.data.email);
-          this.props.history.push('/');
+          this.setState({ redirectToReferrer: true });
         }
       })
       .catch((error) => {
@@ -49,6 +50,14 @@ class LogInForm extends React.Component {
   }
 
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) {
+      return (
+        <Redirect to={from} />
+      );
+    }
 
     return (
       <div className='flex-container'>
@@ -85,8 +94,11 @@ class LogInForm extends React.Component {
 }
 
 LogInForm.propTypes = {
-  history: PropTypes.shape().isRequired,
-  loginHandler: PropTypes.func.isRequired,
+  location: PropTypes.shape(),
+};
+
+LogInForm.defaultProps = {
+  location: undefined,
 };
 
 export default LogInForm;

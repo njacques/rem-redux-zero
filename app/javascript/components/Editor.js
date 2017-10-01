@@ -13,60 +13,58 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
-      activeItem: null,
+      events: null,
+      activeItem: 0,
     };
+  }
 
-    this.toggleActiveItem = this.toggleActiveItem.bind(this);
+  componentWillMount() {
+    this.setActiveItem();
   }
 
   componentDidMount() {
     axios.get('http://localhost:3000/api/v1/events.json')
       .then((response) => {
         this.setState({ events: response.data });
-
-        // When refreshing the page we need to repopulate activeItem, as otherwise
-        // no event prop will be passed to the Event component.
-        if (this.state.activeItem === null) {
-          const activeItem = Number(
-            this.props.location.pathname
-              .replace('/events/', '')
-              .replace('/edit', '')
-          );
-          this.setState({ activeItem });
-        }
       })
       .catch(error => console.log(error));
   }
 
-  toggleActiveItem(event) {
-    this.setState({
-      activeItem: event.id,
-    });
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged();
+    }
+  }
+
+  onRouteChanged() {
+    this.setActiveItem();
+  }
+
+  setActiveItem() {
+    const path = this.props.location.pathname;
+
+    if (path.match(/^\/events/)) {
+      const rx = /\/events\/(\d+)(\/.*?)?/;
+      const item = Number(rx.exec(this.props.location.pathname)[1]);
+      this.setState({ activeItem: item });
+    } else {
+      this.setState({ activeItem: 0 });
+    }
   }
 
   render() {
-    if (this.state.activeItem === null) return null;
+    if (this.state.events === null) return null;
 
     return (
 
       <div>
-        <NavBar
-          currentUser={this.props.currentUser}
-          logoutHandler={this.props.logoutHandler}
-          activeItemHandler={this.toggleActiveItem}
-        />
+        <NavBar />
 
         <section>
           <div className='events-container'>
             <h2>
               Events
-              <Link
-                to='/new'
-                onClick={() => this.toggleActiveItem(0)}
-              >
-                New Event
-              </Link>
+              <Link to='/new'>New Event</Link>
             </h2>
 
             <input className='search' placeholder='Search' type='text' />
@@ -78,10 +76,7 @@ class Editor extends React.Component {
                     key={event.id}
                     className={(this.state.activeItem === event.id) ? 'active' : ''}
                   >
-                    <Link
-                      to={`/events/${event.id}`}
-                      onClick={() => this.toggleActiveItem(event)}
-                    >
+                    <Link to={`/events/${event.id}`}>
                       {event.event_date} - {event.event_type}
                     </Link>
                   </li>
@@ -96,13 +91,15 @@ class Editor extends React.Component {
             <PropsRoute
               path='/events/:id/edit'
               component={EditEvent}
-              event={this.state.events[this.state.activeItem - 1]}
+              events={this.state.events}
             />
+
             <PropsRoute
               path='/events/:id'
               component={Event}
-              event={this.state.events[this.state.activeItem - 1]}
+              events={this.state.events}
             />
+
           </Switch>
         </div>
       </div>
@@ -111,8 +108,6 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  logoutHandler: PropTypes.func.isRequired,
-  currentUser: PropTypes.string.isRequired,
   location: PropTypes.shape(),
 };
 
