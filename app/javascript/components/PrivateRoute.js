@@ -5,6 +5,9 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
+// This component was originally a functional component: https://stackoverflow.com/a/43171515/1136887
+// This helped to convert it to class based syntax: https://stackoverflow.com/a/43695765/1136887
+//
 class PrivateRoute extends React.Component {
   constructor(props) {
     super(props);

@@ -9,6 +9,8 @@ class EditEvent extends React.Component {
       fireRedirect: false,
       eventId: null,
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -25,7 +27,7 @@ class EditEvent extends React.Component {
     this.setState({ eventId: this.props.match.params.id });
   }
 
-  handleLogin(e) {
+  handleSubmit(e) {
     e.preventDefault();
     console.log('Saving ... not! 👽👽👽');
 
@@ -44,7 +46,7 @@ class EditEvent extends React.Component {
           {event.event_date} - {event.event_type}
         </h2>
 
-        <form onSubmit={this.handleLogin}>
+        <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor='event_type'><strong>Type:</strong></label>
             <input type='text' id='event_type' defaultValue={event.event_type} />
