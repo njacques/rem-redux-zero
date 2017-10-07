@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
+import EventList from './EventList';
 import Event from './Event';
 import NewEvent from './NewEvent';
 import EditEvent from './EditEvent';
@@ -60,31 +61,8 @@ class Editor extends React.Component {
       <div>
         <NavBar />
 
-        <section>
-          <div className='events-container'>
-            <h2>
-              Events
-              <Link to='/new'>New Event</Link>
-            </h2>
+        <EventList events={this.state.events} activeItem={this.state.activeItem} />
 
-            <input className='search' placeholder='Search' type='text' />
-
-            <ul className='events-list'>
-              {
-                this.state.events.map(event => (
-                  <li
-                    key={event.id}
-                    className={(this.state.activeItem === event.id) ? 'active' : ''}
-                  >
-                    <Link to={`/events/${event.id}`}>
-                      {event.event_date} - {event.event_type}
-                    </Link>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-        </section>
         <div className='event-container'>
           <Switch>
             <Route path='/new' component={NewEvent} />
