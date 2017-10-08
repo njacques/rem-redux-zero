@@ -2,22 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const EventList = props => (
+const EventList = ({ events, match }) => (
   <section>
     <div className='events-container'>
       <h2>
         Events
-        <Link to='/new'>New Event</Link>
+        <Link to='/events/new'>New Event</Link>
       </h2>
 
       <input className='search' placeholder='Search' type='text' />
 
       <ul className='events-list'>
         {
-          props.events.map(event => (
+          events.map(event => (
             <li
               key={event.id}
-              className={(props.activeItem === event.id) ? 'active' : ''}
+              className={(match.params.id == event.id) ? 'active' : ''}
             >
               <Link to={`/events/${event.id}`}>
                 {event.event_date} - {event.event_type}

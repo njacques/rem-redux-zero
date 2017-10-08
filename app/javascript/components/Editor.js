@@ -15,69 +15,46 @@ class Editor extends React.Component {
     super(props);
     this.state = {
       events: null,
-      activeItem: 0,
     };
-  }
-
-  componentWillMount() {
-    this.setActiveItem();
   }
 
   componentDidMount() {
     axios.get('http://localhost:3000/api/v1/events.json')
-      .then((response) => {
-        this.setState({ events: response.data });
-      })
+      .then(response => this.setState({ events: response.data }))
       .catch(error => console.log(error));
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
-    }
-  }
-
-  onRouteChanged() {
-    this.setActiveItem();
-  }
-
-  setActiveItem() {
-    const path = this.props.location.pathname;
-
-    if (path.match(/^\/events/)) {
-      const rx = /\/events\/(\d+)(\/.*?)?/;
-      const item = Number(rx.exec(this.props.location.pathname)[1]);
-      this.setState({ activeItem: item });
-    } else {
-      this.setState({ activeItem: 0 });
-    }
   }
 
   render() {
     if (this.state.events === null) return null;
 
-    return (
+    const event = this.state.events[this.props.match.params.id];
 
+    return (
       <div>
         <NavBar />
 
-        <EventList events={this.state.events} activeItem={this.state.activeItem} />
+        <PropsRoute
+          path='/events/:id?'
+          component={EventList}
+          events={this.state.events}
+        />
 
         <div className='event-container'>
           <Switch>
-            <Route path='/new' component={NewEvent} />
+            <Route path='/events/new' component={NewEvent} />
+
             <PropsRoute
+              exact
               path='/events/:id/edit'
               component={EditEvent}
-              events={this.state.events}
+              event={event}
             />
 
             <PropsRoute
               path='/events/:id'
               component={Event}
-              events={this.state.events}
+              event={event}
             />
-
           </Switch>
         </div>
       </div>
