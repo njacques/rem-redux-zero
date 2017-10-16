@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Event = ({event}) => (
+const Event = ({ event }) => (
   <div>
     <h2>
       {event.event_date} - {event.event_type}

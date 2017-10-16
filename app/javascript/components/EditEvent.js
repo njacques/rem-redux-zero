@@ -75,7 +75,6 @@ class EditEvent extends React.Component {
 
 EditEvent.propTypes = {
   event: PropTypes.shape().isRequired,
-  match: PropTypes.shape().isRequired,
   location: PropTypes.shape(),
 };
 

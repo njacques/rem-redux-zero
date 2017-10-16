@@ -27,18 +27,14 @@ class Editor extends React.Component {
   render() {
     if (this.state.events === null) return null;
 
-    const eventId = this.props.match.params.id - 1;
-    const event = this.state.events[eventId];
+    const eventId = this.props.match.params.id;
+    const event = this.state.events[eventId - 1];
 
     return (
       <div>
         <NavBar />
 
-        <PropsRoute
-          path='/events/:id?'
-          component={EventList}
-          events={this.state.events}
-        />
+        <EventList events={this.state.events} activeId={Number(eventId)} />
 
         <div className='event-container'>
           <Switch>
