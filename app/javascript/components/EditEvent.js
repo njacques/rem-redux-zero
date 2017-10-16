@@ -7,24 +7,9 @@ class EditEvent extends React.Component {
     super(props);
     this.state = {
       fireRedirect: false,
-      eventId: null,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentWillMount() {
-    this.setState({ eventId: this.props.match.params.id });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
-    }
-  }
-
-  onRouteChanged() {
-    this.setState({ eventId: this.props.match.params.id });
   }
 
   handleSubmit(e) {
@@ -38,7 +23,9 @@ class EditEvent extends React.Component {
   render() {
     const { from } = this.props.location.state || '/';
     const { fireRedirect } = this.state;
-    const event = this.props.events[this.state.eventId - 1];
+    const event = this.props.event;
+
+    if (!event) return null;
 
     return (
       <div>
@@ -87,8 +74,7 @@ class EditEvent extends React.Component {
 }
 
 EditEvent.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape).isRequired,
-  match: PropTypes.shape().isRequired,
+  event: PropTypes.shape().isRequired,
   location: PropTypes.shape(),
 };
 
