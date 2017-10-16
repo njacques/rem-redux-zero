@@ -26,29 +26,9 @@ body {
 /* Login */
 .flex-container {
   height: 100vh;
-  padding: 0;
-  margin: 0;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.row {
-  width: auto;
-}
-
-.flex-item {
-  background-color: tomato;
-  padding: 5px;
-  width: 20px;
-  height: 20px;
-  margin: 10px;
-  line-height: 20px;
-  color: white;
-  font-weight: bold;
-  font-size: 2em;
-  text-align: center;
 }
 
 .login-form input, .login-form button {
