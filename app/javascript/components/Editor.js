@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import EventList from './EventList';
@@ -27,7 +27,8 @@ class Editor extends React.Component {
   render() {
     if (this.state.events === null) return null;
 
-    const event = this.state.events[this.props.match.params.id];
+    const eventId = this.props.match.params.id - 1;
+    const event = this.state.events[eventId];
 
     return (
       <div>
@@ -63,11 +64,11 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
-  location: PropTypes.shape(),
+  match: PropTypes.shape(),
 };
 
 Editor.defaultProps = {
-  location: undefined,
+  match: undefined,
 };
 
 export default withRouter(Editor);
