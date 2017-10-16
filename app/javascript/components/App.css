@@ -21,6 +21,7 @@ body {
   color: #222222;
   font-family: Roboto;
   margin: 0 0 65px;
+  overflow-y: scroll;
 }
 
 /* Login */
@@ -98,6 +99,7 @@ section {
 .events-container {
   margin: 30px 75px 0 0;
   width: 25%;
+  min-height: 85vh;
   background: #f6f6f6;
   float: left;
   padding: 15px 20px 20px;
