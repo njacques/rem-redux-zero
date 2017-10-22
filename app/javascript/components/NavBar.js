@@ -18,7 +18,7 @@ const NavBar = () => (
       </span>
 
       <h1>
-        <Link to='/'>IGSN Calendar Editor</Link>
+        <Link to='/events'>IGSN Calendar Editor</Link>
       </h1>
     </nav>
   </header>

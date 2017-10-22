@@ -50,7 +50,7 @@ class LogInForm extends React.Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const { from } = this.props.location.state || { from: { pathname: '/events' } };
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {

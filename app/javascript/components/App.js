@@ -11,7 +11,6 @@ const App = () => (
     <Switch>
       <Route path='/login' component={LogInForm} />
       <PrivateRoute path='/events/:id?' component={Editor} />
-      <Redirect to='/events' />
     </Switch>
   </div>
 );

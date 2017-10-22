@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root to: 'site#index'
+  root to: redirect('/events')
+
   get 'login', to: 'site#index'
   get 'events', to: 'site#index'
   get 'events/new', to: 'site#index'
