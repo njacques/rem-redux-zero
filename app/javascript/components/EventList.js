@@ -31,9 +31,26 @@ class EventList extends React.Component {
     ));
   }
 
-  render() {
-    const events = this.props.events.filter(el => this.match(el));
+  renderEvents() {
+    const events = this.props.events
+      .filter(el => this.match(el))
+      .sort((a, b) => (new Date(b.event_date) - new Date(a.event_date)));
 
+    return (
+      events.map(event => (
+        <li
+          key={event.id}
+          className={(this.props.activeId === event.id) ? 'active' : ''}
+        >
+          <Link to={`/events/${event.id}`}>
+            {event.event_date} - {event.event_type}
+          </Link>
+        </li>
+      ))
+    );
+  }
+
+  render() {
     return (
       <section>
         <div className='events-container'>
@@ -51,18 +68,7 @@ class EventList extends React.Component {
           />
 
           <ul className='events-list'>
-            {
-              events.map(event => (
-                <li
-                  key={event.id}
-                  className={(this.props.activeId === event.id) ? 'active' : ''}
-                >
-                  <Link to={`/events/${event.id}`}>
-                    {event.event_date} - {event.event_type}
-                  </Link>
-                </li>
-              ))
-            }
+            {this.renderEvents()}
           </ul>
         </div>
       </section>
