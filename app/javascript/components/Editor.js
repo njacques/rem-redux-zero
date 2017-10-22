@@ -8,20 +8,34 @@ import EventList from './EventList';
 import Event from './Event';
 import NewEvent from './NewEvent';
 import EditEvent from './EditEvent';
+import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       events: null,
     };
+
+    this.saveEvent = this.saveEvent.bind(this);
   }
 
   componentDidMount() {
     axios.get('http://localhost:3000/api/v1/events.json')
       .then(response => this.setState({ events: response.data }))
       .catch(error => console.log(error));
+  }
+
+  saveEvent(updatedEvent) {
+    console.log('saveEvent called', updatedEvent);
+
+    const events = [...this.state.events];
+    events[updatedEvent.id - 1] = updatedEvent;
+    this.setState({ events });
+
+    this.props.history.push(`/events/${updatedEvent.id}`);
   }
 
   render() {
@@ -42,13 +56,18 @@ class Editor extends React.Component {
 
         <div className='event-container'>
           <Switch>
-            <Route path='/events/new' component={NewEvent} />
+            <PropsRoute
+              path='/events/new'
+              component={EventForm}
+              onSubmit={this.saveEvent}
+            />
 
             <PropsRoute
               exact
               path='/events/:id/edit'
-              component={EditEvent}
+              component={EventForm}
               event={event}
+              onSubmit={this.saveEvent}
             />
 
             <PropsRoute
