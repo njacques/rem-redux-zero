@@ -34,7 +34,11 @@ class Editor extends React.Component {
       <div>
         <NavBar />
 
-        <EventList events={this.state.events} activeId={Number(eventId)} />
+        <EventList
+          events={this.state.events}
+          activeId={Number(eventId)}
+          location={this.props.location}
+        />
 
         <div className='event-container'>
           <Switch>
