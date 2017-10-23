@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import YearFilter from './YearFilter';
-import { unique, getEventYear } from '../packs/helpers';
+import { unique, getEventYear, getSelectedYear } from '../packs/helpers';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class EventList extends React.Component {
   }
 
   matchYear(el) {
-    const year = this.props.location.search.replace('?year=', '');
+    const year = getSelectedYear(this.props.location.search);
     return getEventYear(el).match(year);
   }
 
@@ -84,9 +84,8 @@ class EventList extends React.Component {
           />
 
           <YearFilter
-            filterYear={this.filterYear}
             years={availableYears}
-            selectedYear={this.state.selectedYear}
+            selectedYear={getSelectedYear(this.props.location.search)}
           />
 
           <ul className='events-list'>

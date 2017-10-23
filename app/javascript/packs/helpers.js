@@ -5,3 +5,7 @@ export function getEventYear(el) {
 export function unique(value, index, self) {
   return self.indexOf(value) === index;
 }
+
+export function getSelectedYear(queryString) {
+  return queryString.replace('?year=', '');
+}
