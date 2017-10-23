@@ -33,9 +33,7 @@ class Api::V1::EventsController < ApplicationController
       :event_date,
       :title,
       :speaker,
-      :speaker_multiple,
       :host,
-      :host_multiple,
       :published
     )
   end

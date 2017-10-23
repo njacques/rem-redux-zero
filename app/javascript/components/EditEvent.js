@@ -55,7 +55,7 @@ class EditEvent extends React.Component {
           </div>
 
           <div>
-            <label htmlFor='published'><strong>Hosts:</strong></label>
+            <label htmlFor='published'><strong>Published:</strong></label>
             <input type='text' id='published' defaultValue={(event.published) ? 'yes' : 'no'} />
           </div>
 
