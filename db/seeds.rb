@@ -8,7 +8,7 @@
 # 6. Sort by ID using `p json.sort_by { |json| json['id'].to_i }`
 # 7. Do a search and replace to replace `=>` with `: `
 # 8. Format again then copy formatted JSON into `events.json`
-# 9. Do a search and replace to remove remove `id` property
+# 9. Do a search and replace to remove remove `id`, `speaker_multiple` and `host_multiple` properties
 # 10. Import it into app, then iterate over records and create entries in DB
 
 # Links:

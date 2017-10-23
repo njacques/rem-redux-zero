@@ -19,8 +19,6 @@ class EventList extends React.Component {
   match(obj) {
     const {
       id,
-      host_multiple,
-      speaker_multiple,
       published,
       created_at,
       updated_at,
