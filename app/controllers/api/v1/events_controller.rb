@@ -11,7 +11,7 @@ class Api::V1::EventsController < ApplicationController
   end
 
   def create
-    respond_with :api, :v1, Event.create(Event_params)
+    respond_with :api, :v1, Event.create(event_params)
   end
 
   def destroy
