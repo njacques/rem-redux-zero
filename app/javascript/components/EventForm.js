@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Pikaday from 'react-pikaday/bundled';
 
 const validateEvent = (event) => {
   const errors = {};
@@ -28,20 +29,35 @@ const validateEvent = (event) => {
   return errors;
 };
 
+const dateToString = (date) => {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+
+  return `${year}-${month}-${day}`;
+};
+
+const strToDate = dateString => new Date(`${dateString} 00:00:00`);
+
 class EventForm extends React.Component {
   constructor(props) {
     super(props);
 
     const event = {
       event_type: '',
-      event_date: '',
+      event_date: null,
       title: '',
       speaker: '',
       host: '',
       published: false,
     };
 
-    Object.assign(event, props.event);
+    if (props.event) {
+      Object.assign(event, {
+        ...props.event,
+        event_date: strToDate(props.event.event_date),
+      });
+    }
 
     this.state = {
       event,
@@ -49,7 +65,17 @@ class EventForm extends React.Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      event: {
+        ...nextProps.event,
+        event_date: strToDate(nextProps.event.event_date),
+      },
+    });
   }
 
   handleInputChange(event) {
@@ -65,6 +91,16 @@ class EventForm extends React.Component {
     });
   }
 
+  handleDateChange(date) {
+    console.log(date);
+    this.setState({
+      event: {
+        ...this.state.event,
+        event_date: date,
+      },
+    });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     console.log('handleSubmit called');
@@ -75,6 +111,8 @@ class EventForm extends React.Component {
     if (Object.keys(errors).length > 0) {
       this.setState({ errors });
     } else {
+      // convert date obj to string format that API is expecting
+      event.event_date = dateToString(event.event_date);
       this.props.onSubmit(event);
     }
   }
@@ -99,7 +137,7 @@ class EventForm extends React.Component {
     const { event } = this.state;
 
     const title = event.id
-      ? `${event.event_date} - ${event.event_type}`
+      ? `${dateToString(event.event_date)} - ${event.event_type}`
       : 'New Event';
 
     const errors = this.renderErrors();
@@ -126,12 +164,7 @@ class EventForm extends React.Component {
 
           <div>
             <label htmlFor='event_date'><strong>Date:</strong></label>
-            <input
-              type='text'
-              name='event_date'
-              defaultValue={event.event_date}
-              onChange={this.handleInputChange}
-            />
+            <Pikaday value={event.event_date} onChange={this.handleDateChange} />
           </div>
 
           <div>
