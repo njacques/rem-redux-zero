@@ -1,13 +1,13 @@
+/* global sessionStorage */
+
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
-import NewEvent from './NewEvent';
-import EditEvent from './EditEvent';
 import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
 
@@ -19,23 +19,43 @@ class Editor extends React.Component {
       events: null,
     };
 
-    this.saveEvent = this.saveEvent.bind(this);
+    const token = sessionStorage.getItem('jwt');
+
+    axios.defaults.baseURL = 'http://localhost:3000/api/v1/';
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    this.updateEvent = this.updateEvent.bind(this);
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/api/v1/events.json')
+    axios.get('events.json')
       .then(response => this.setState({ events: response.data }))
       .catch(error => console.log(error));
   }
 
-  saveEvent(updatedEvent) {
-    console.log('saveEvent called', updatedEvent);
+  addEvent(newEvent) {
+    axios.post('events.json', newEvent)
+      .then((response) => {
+        const savedEvent = response.data;
+        const events = [...this.state.events, savedEvent];
+        this.setState({ events });
 
-    const events = [...this.state.events];
-    events[updatedEvent.id - 1] = updatedEvent;
-    this.setState({ events });
+        this.props.history.push(`/events/${savedEvent.id}`);
+      })
+      .catch(error => console.log(error));
+  }
 
-    this.props.history.push(`/events/${updatedEvent.id}`);
+  updateEvent(updatedEvent) {
+    axios.put(`events/${updatedEvent.id}.json`, updatedEvent)
+      .then(() => {
+        const events = [...this.state.events];
+        events[updatedEvent.id - 1] = updatedEvent;
+        this.setState({ events });
+
+        this.props.history.push(`/events/${updatedEvent.id}`);
+      })
+      .catch(error => console.log(error));
   }
 
   render() {
@@ -59,7 +79,7 @@ class Editor extends React.Component {
             <PropsRoute
               path='/events/new'
               component={EventForm}
-              onSubmit={this.saveEvent}
+              onSubmit={this.addEvent}
             />
 
             <PropsRoute
@@ -67,7 +87,7 @@ class Editor extends React.Component {
               path='/events/:id/edit'
               component={EventForm}
               event={event}
-              onSubmit={this.saveEvent}
+              onSubmit={this.updateEvent}
             />
 
             <PropsRoute
@@ -83,7 +103,9 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
+  location: PropTypes.shape().isRequired,
   match: PropTypes.shape(),
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 Editor.defaultProps = {

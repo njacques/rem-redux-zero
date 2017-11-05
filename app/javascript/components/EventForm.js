@@ -7,12 +7,12 @@ class EventForm extends React.Component {
     super(props);
 
     const event = {
-      id: null,
       event_type: '',
       event_date: '',
       title: '',
       speaker: '',
-      published: 'No',
+      host: '',
+      published: false,
     };
 
     Object.assign(event, props.event);
@@ -100,11 +100,21 @@ class EventForm extends React.Component {
           </div>
 
           <div>
-            <label htmlFor='published'><strong>Hosts:</strong></label>
+            <label htmlFor='host'><strong>Hosts:</strong></label>
             <input
               type='text'
+              name='host'
+              defaultValue={event.host}
+              onChange={this.handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label htmlFor='published'><strong>Publish:</strong></label>
+            <input
+              type='checkbox'
               name='published'
-              defaultValue={(event.published) ? 'yes' : 'no'}
+              checked={event.published}
               onChange={this.handleInputChange}
             />
           </div>
