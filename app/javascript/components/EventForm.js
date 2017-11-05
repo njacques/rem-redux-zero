@@ -2,6 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+const validateEvent = (event) => {
+  const errors = {};
+
+  if (event.event_type === '') {
+    errors.event_type = 'You must enter an event type';
+  }
+
+  if (event.event_date === '') {
+    errors.event_type = 'You must enter a valid date';
+  }
+
+  if (event.title === '') {
+    errors.event_type = 'You must enter a title';
+  }
+
+  if (event.speaker === '') {
+    errors.speaker = 'You must enter at least one speaker';
+  }
+
+  if (event.host === '') {
+    errors.host = 'You must enter at least one host';
+  }
+
+  return errors;
+};
+
 class EventForm extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +45,7 @@ class EventForm extends React.Component {
 
     this.state = {
       event,
+      errors: {},
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -41,21 +68,50 @@ class EventForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log('handleSubmit called');
-    this.props.onSubmit(this.state.event);
+
+    const { event } = this.state;
+    const errors = validateEvent(event);
+
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors });
+    } else {
+      this.props.onSubmit(event);
+    }
+  }
+
+  renderErrors() {
+    const { errors } = this.state;
+
+    if (Object.keys(errors).length === 0) {
+      return null;
+    }
+
+    return (
+      <div className='errors'>
+        <ul>
+          {Object.values(errors).map(e => <li>{e}</li>)}
+        </ul>
+      </div>
+    );
   }
 
   render() {
-    const { event } = this.props;
+    const { event } = this.state;
 
     const title = event.id
       ? `${event.event_date} - ${event.event_type}`
       : 'New Event';
+
+    const errors = this.renderErrors();
 
     return (
       <div>
         <h2>
           {title}
         </h2>
+
+
+        {errors}
 
         <form onSubmit={this.handleSubmit}>
           <div>

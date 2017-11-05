@@ -177,6 +177,10 @@ input, textarea {
   margin-bottom: 10px;
 }
 
+input[type=checkbox] {
+  width: 13px;
+}
+
 button[type='submit'] {
   background: #f57011;
   border: none;
@@ -185,6 +189,18 @@ button[type='submit'] {
   color: white;
   cursor: pointer;
   margin-right: 12px;
+}
+
+.errors {
+  background: pink;
+  padding: 10px;
+  width: 400px;
+  margin: 0 auto 20px;
+}
+
+.errors ul li {
+  margin-bottom: 10px;
+  list-style-type: disc;
 }
 
 .form-actions{
@@ -223,3 +239,4 @@ button[type='submit'] {
 .filterLinks a.active{
   background: #f6f6f6;
 }
+
