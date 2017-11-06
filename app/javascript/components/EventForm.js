@@ -148,7 +148,6 @@ class EventForm extends React.Component {
           {title}
         </h2>
 
-
         {errors}
 
         <form onSubmit={this.handleSubmit}>
