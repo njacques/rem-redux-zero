@@ -50,7 +50,9 @@ class Editor extends React.Component {
     axios.put(`events/${updatedEvent.id}.json`, updatedEvent)
       .then(() => {
         const events = [...this.state.events];
-        events[updatedEvent.id - 1] = updatedEvent;
+        const idx = events.findIndex(event => event.id === updatedEvent.id);
+        events[idx] = updatedEvent;
+
         this.setState({ events });
 
         this.props.history.push(`/events/${updatedEvent.id}`);

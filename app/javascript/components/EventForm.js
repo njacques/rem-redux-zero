@@ -3,41 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pikaday from 'react-pikaday/bundled';
 
-const validateEvent = (event) => {
-  const errors = {};
-
-  if (event.event_type === '') {
-    errors.event_type = 'You must enter an event type';
-  }
-
-  if (event.event_date === '') {
-    errors.event_type = 'You must enter a valid date';
-  }
-
-  if (event.title === '') {
-    errors.event_type = 'You must enter a title';
-  }
-
-  if (event.speaker === '') {
-    errors.speaker = 'You must enter at least one speaker';
-  }
-
-  if (event.host === '') {
-    errors.host = 'You must enter at least one host';
-  }
-
-  return errors;
-};
-
-const dateToString = (date) => {
-  const year = date.getUTCFullYear();
-  const month = date.getUTCMonth() + 1;
-  const day = date.getUTCDate();
-
-  return `${year}-${month}-${day}`;
-};
-
-const strToDate = dateString => new Date(`${dateString} 00:00:00`);
+import {
+  validateEvent,
+  dateToString,
+  strToDate,
+  isEmptyObject,
+} from '../packs/helpers';
 
 class EventForm extends React.Component {
   constructor(props) {
@@ -92,7 +63,6 @@ class EventForm extends React.Component {
   }
 
   handleDateChange(date) {
-    console.log(date);
     this.setState({
       event: {
         ...this.state.event,
@@ -103,12 +73,11 @@ class EventForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handleSubmit called');
 
     const { event } = this.state;
     const errors = validateEvent(event);
 
-    if (Object.keys(errors).length > 0) {
+    if (!isEmptyObject(errors)) {
       this.setState({ errors });
     } else {
       // convert date obj to string format that API is expecting
@@ -120,7 +89,7 @@ class EventForm extends React.Component {
   renderErrors() {
     const { errors } = this.state;
 
-    if (Object.keys(errors).length === 0) {
+    if (isEmptyObject(errors)) {
       return null;
     }
 
@@ -140,7 +109,7 @@ class EventForm extends React.Component {
       ? `${dateToString(event.event_date)} - ${event.event_type}`
       : 'New Event';
 
-    const errors = this.renderErrors();
+    const cancelURL = event.id ? `/events/${event.id}` : '/events';
 
     return (
       <div>
@@ -148,7 +117,7 @@ class EventForm extends React.Component {
           {title}
         </h2>
 
-        {errors}
+        {this.renderErrors()}
 
         <form onSubmit={this.handleSubmit}>
           <div>
@@ -209,7 +178,7 @@ class EventForm extends React.Component {
 
           <div className='form-actions'>
             <button type='submit'>Save</button>
-            <Link to={`/events/${event.id}`}>Cancel</Link>
+            <Link to={cancelURL}>Cancel</Link>
           </div>
         </form>
       </div>
