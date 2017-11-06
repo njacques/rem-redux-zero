@@ -3,6 +3,8 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-quotes": 0,
-    "jsx-quotes": [2, "prefer-single"]
+    "jsx-quotes": [2, "prefer-single"],
+    "no-console": 0,
+    "no-alert": 0
   }
 }

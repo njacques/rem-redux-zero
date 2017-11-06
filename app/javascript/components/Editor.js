@@ -1,9 +1,11 @@
-/* global sessionStorage */
+/* global sessionStorage, confirm */
 
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Switch, withRouter } from 'react-router-dom';
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 import NavBar from './NavBar';
 import EventList from './EventList';
@@ -27,6 +29,7 @@ class Editor extends React.Component {
 
     this.addEvent = this.addEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
+    this.deleteHandler = this.deleteHandler.bind(this);
   }
 
   componentDidMount() {
@@ -61,11 +64,50 @@ class Editor extends React.Component {
       .catch(error => console.log(error));
   }
 
+  deleteHandler(e, eventId) {
+    const sure = confirm('Are you sure?');
+    if (sure) {
+      const endPoint = `http://localhost:3000/api/v1/events/${eventId}.json`;
+      const token = sessionStorage.getItem('jwt');
+
+      axios.delete(endPoint, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (response.status === 204) {
+            Alert.success('Event deleted successfully', {
+              position: 'top-right',
+              effect: 'slide',
+              timeout: 3500,
+              offset: 45,
+            });
+            const events = this.state.events.filter(event => event.id !== eventId);
+            this.setState({ events });
+          }
+        })
+        .catch((error) => {
+          Alert.error('Something went wrong', {
+            position: 'top-right',
+            effect: 'slide',
+            timeout: 3500,
+            offset: 45,
+          });
+
+          console.log(error);
+        });
+    } else {
+      e.preventDefault();
+    }
+  }
+
   render() {
     if (this.state.events === null) return null;
 
     const eventId = this.props.match.params.id;
-    const event = this.state.events[eventId - 1];
+    const event = this.state.events.find(e => e.id === Number(eventId));
 
     return (
       <div>
@@ -97,6 +139,8 @@ class Editor extends React.Component {
               path='/events/:id'
               component={Event}
               event={event}
+              deleteHandler={this.deleteHandler}
+              location={this.props.location}
             />
           </Switch>
         </div>
