@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import YearFilter from './YearFilter';
+import { unique, getEventYear, getSelectedYear } from '../packs/helpers';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -16,7 +18,7 @@ class EventList extends React.Component {
     this.setState({ searchTerm: this.searchInput.value });
   }
 
-  match(obj) {
+  matchSearchTerm(obj) {
     const {
       id,
       published,
@@ -29,9 +31,15 @@ class EventList extends React.Component {
     ));
   }
 
+  matchYear(el) {
+    const year = getSelectedYear(this.props.location.search);
+    return getEventYear(el).match(year);
+  }
+
   renderEvents() {
     const events = this.props.events
-      .filter(el => this.match(el))
+      .filter(el => this.matchYear(el))
+      .filter(el => this.matchSearchTerm(el))
       .sort((a, b) => (new Date(b.event_date) - new Date(a.event_date)));
 
     return (
@@ -40,7 +48,12 @@ class EventList extends React.Component {
           key={event.id}
           className={(this.props.activeId === event.id) ? 'active' : ''}
         >
-          <Link to={`/events/${event.id}`}>
+          <Link
+            to={{
+              pathname: `/events/${event.id}`,
+              search: this.props.location.search,
+            }}
+          >
             {event.event_date} - {event.event_type}
           </Link>
         </li>
@@ -49,6 +62,11 @@ class EventList extends React.Component {
   }
 
   render() {
+    const availableYears = Object.values(this.props.events)
+      .map(event => getEventYear(event))
+      .filter(unique)
+      .reverse();
+
     return (
       <section>
         <div className='events-container'>
@@ -65,6 +83,11 @@ class EventList extends React.Component {
             onKeyUp={this.filterEvents}
           />
 
+          <YearFilter
+            years={availableYears}
+            selectedYear={getSelectedYear(this.props.location.search)}
+          />
+
           <ul className='events-list'>
             {this.renderEvents()}
           </ul>
@@ -77,6 +100,7 @@ class EventList extends React.Component {
 EventList.propTypes = {
   activeId: PropTypes.number,
   events: PropTypes.arrayOf(PropTypes.object),
+  location: PropTypes.shape().isRequired,
 };
 
 EventList.defaultProps = {
