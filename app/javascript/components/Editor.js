@@ -1,26 +1,62 @@
+/* global sessionStorage */
+
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, withRouter } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
-import NewEvent from './NewEvent';
-import EditEvent from './EditEvent';
+import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
 
 class Editor extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       events: null,
     };
+
+    const token = sessionStorage.getItem('jwt');
+
+    axios.defaults.baseURL = 'http://localhost:3000/api/v1/';
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    this.updateEvent = this.updateEvent.bind(this);
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/api/v1/events.json')
+    axios.get('events.json')
       .then(response => this.setState({ events: response.data }))
+      .catch(error => console.log(error));
+  }
+
+  addEvent(newEvent) {
+    axios.post('events.json', newEvent)
+      .then((response) => {
+        const savedEvent = response.data;
+        const events = [...this.state.events, savedEvent];
+        this.setState({ events });
+
+        this.props.history.push(`/events/${savedEvent.id}`);
+      })
+      .catch(error => console.log(error));
+  }
+
+  updateEvent(updatedEvent) {
+    axios.put(`events/${updatedEvent.id}.json`, updatedEvent)
+      .then(() => {
+        const events = [...this.state.events];
+        const idx = events.findIndex(event => event.id === updatedEvent.id);
+        events[idx] = updatedEvent;
+
+        this.setState({ events });
+
+        this.props.history.push(`/events/${updatedEvent.id}`);
+      })
       .catch(error => console.log(error));
   }
 
@@ -42,13 +78,18 @@ class Editor extends React.Component {
 
         <div className='event-container'>
           <Switch>
-            <Route path='/events/new' component={NewEvent} />
+            <PropsRoute
+              path='/events/new'
+              component={EventForm}
+              onSubmit={this.addEvent}
+            />
 
             <PropsRoute
               exact
               path='/events/:id/edit'
-              component={EditEvent}
+              component={EventForm}
               event={event}
+              onSubmit={this.updateEvent}
             />
 
             <PropsRoute
@@ -64,7 +105,9 @@ class Editor extends React.Component {
 }
 
 Editor.propTypes = {
+  location: PropTypes.shape().isRequired,
   match: PropTypes.shape(),
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 Editor.defaultProps = {
