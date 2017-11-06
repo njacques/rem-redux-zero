@@ -25,6 +25,7 @@ class Editor extends React.Component {
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
+    this.addEvent = this.addEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
   }
 

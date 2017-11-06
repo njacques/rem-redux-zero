@@ -15,20 +15,9 @@ class EventForm extends React.Component {
     super(props);
 
     const event = {
-      event_type: '',
-      event_date: null,
-      title: '',
-      speaker: '',
-      host: '',
-      published: false,
+      ...props.event,
+      event_date: strToDate(props.event.event_date),
     };
-
-    if (props.event) {
-      Object.assign(event, {
-        ...props.event,
-        event_date: strToDate(props.event.event_date),
-      });
-    }
 
     this.state = {
       event,
@@ -96,7 +85,7 @@ class EventForm extends React.Component {
     return (
       <div className='errors'>
         <ul>
-          {Object.values(errors).map(e => <li>{e}</li>)}
+          {Object.values(errors).map(error => <li key={error}>{error}</li>)}
         </ul>
       </div>
     );
@@ -192,7 +181,14 @@ EventForm.propTypes = {
 };
 
 EventForm.defaultProps = {
-  event: {},
+  event: {
+    event_type: '',
+    event_date: null,
+    title: '',
+    speaker: '',
+    host: '',
+    published: false,
+  },
 };
 
 export default EventForm;
