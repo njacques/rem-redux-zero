@@ -2,21 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const Event = ({ event, deleteHandler, location }) => (
+const Event = ({ event, onDelete }) => (
   <div>
     <h2>
       {event.event_date} - {event.event_type}
       <Link to={`/events/${event.id}/edit`}>Edit</Link>
-
-      <Link
-        to={{
-          pathname: '/events',
-          search: location.search,
-        }}
-        onClick={e => deleteHandler(e, event.id)}
-      >
-        Delete
-      </Link>
+      <button className='delete' onClick={e => onDelete(e, event.id)}>Delete</button>
     </h2>
 
     <ul>
@@ -32,8 +23,7 @@ const Event = ({ event, deleteHandler, location }) => (
 
 Event.propTypes = {
   event: PropTypes.shape().isRequired,
-  deleteHandler: PropTypes.func.isRequired,
-  location: PropTypes.shape(),
+  onDelete: PropTypes.func.isRequired,
 };
 
 Event.defaultProps = {

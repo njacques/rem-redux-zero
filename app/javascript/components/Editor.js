@@ -29,7 +29,7 @@ class Editor extends React.Component {
 
     this.addEvent = this.addEvent.bind(this);
     this.updateEvent = this.updateEvent.bind(this);
-    this.deleteHandler = this.deleteHandler.bind(this);
+    this.deleteEvent = this.deleteEvent.bind(this);
   }
 
   componentDidMount() {
@@ -64,18 +64,10 @@ class Editor extends React.Component {
       .catch(error => console.log(error));
   }
 
-  deleteHandler(e, eventId) {
+  deleteEvent(e, eventId) {
     const sure = confirm('Are you sure?');
     if (sure) {
-      const endPoint = `http://localhost:3000/api/v1/events/${eventId}.json`;
-      const token = sessionStorage.getItem('jwt');
-
-      axios.delete(endPoint, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      axios.delete(`events/${eventId}.json`)
         .then((response) => {
           if (response.status === 204) {
             Alert.success('Event deleted successfully', {
@@ -84,6 +76,7 @@ class Editor extends React.Component {
               timeout: 3500,
               offset: 45,
             });
+            this.props.history.push('/events');
             const events = this.state.events.filter(event => event.id !== eventId);
             this.setState({ events });
           }
@@ -139,8 +132,7 @@ class Editor extends React.Component {
               path='/events/:id'
               component={Event}
               event={event}
-              deleteHandler={this.deleteHandler}
-              location={this.props.location}
+              onDelete={this.deleteEvent}
             />
           </Switch>
         </div>

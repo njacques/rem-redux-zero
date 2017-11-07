@@ -114,7 +114,7 @@ h2 a{
   font-size: 15px;
   float: right;
   font-weight: normal;
-  margin: 3px 0 0 0;
+  margin: 3px 8px 0 0;
   text-decoration: none;
 }
 
@@ -240,3 +240,19 @@ button[type='submit'] {
   background: #f6f6f6;
 }
 
+button.delete {
+  background:none!important;
+  border:none;
+  padding:0!important;
+  margin-left: 10px;
+  cursor: pointer;
+  color: #236fff;
+  font-size: 15px;
+  font-weight: normal;
+  margin: 3px 0 0 0;
+  text-decoration: none;
+}
+
+button.delete:hover {
+  text-decoration: underline;
+}
