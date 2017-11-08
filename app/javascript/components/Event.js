@@ -7,7 +7,7 @@ const Event = ({ event, onDelete }) => (
     <h2>
       {event.event_date} - {event.event_type}
       <Link to={`/events/${event.id}/edit`}>Edit</Link>
-      <button className='delete' onClick={e => onDelete(e, event.id)}>Delete</button>
+      <button className='delete' onClick={() => onDelete(event.id)}>Delete</button>
     </h2>
 
     <ul>
@@ -24,10 +24,6 @@ const Event = ({ event, onDelete }) => (
 Event.propTypes = {
   event: PropTypes.shape().isRequired,
   onDelete: PropTypes.func.isRequired,
-};
-
-Event.defaultProps = {
-  location: undefined,
 };
 
 export default Event;

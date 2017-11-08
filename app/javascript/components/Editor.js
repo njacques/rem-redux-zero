@@ -4,14 +4,18 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Switch, withRouter } from 'react-router-dom';
-import Alert from 'react-s-alert';
-import 'react-s-alert/dist/s-alert-css-effects/slide.css';
+import { success, error } from '../packs/notifications';
 
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
 import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
+
+const handleAjaxError = (err) => {
+  error('Something went wrong');
+  console.log(err);
+};
 
 class Editor extends React.Component {
   constructor(props) {
@@ -35,24 +39,28 @@ class Editor extends React.Component {
   componentDidMount() {
     axios.get('events.json')
       .then(response => this.setState({ events: response.data }))
-      .catch(error => console.log(error));
+      .catch(handleAjaxError);
   }
 
   addEvent(newEvent) {
     axios.post('events.json', newEvent)
       .then((response) => {
+        success('New event added');
+
         const savedEvent = response.data;
         const events = [...this.state.events, savedEvent];
         this.setState({ events });
 
         this.props.history.push(`/events/${savedEvent.id}`);
       })
-      .catch(error => console.log(error));
+      .catch(handleAjaxError);
   }
 
   updateEvent(updatedEvent) {
     axios.put(`events/${updatedEvent.id}.json`, updatedEvent)
       .then(() => {
+        success('Event updated');
+
         const events = [...this.state.events];
         const idx = events.findIndex(event => event.id === updatedEvent.id);
         events[idx] = updatedEvent;
@@ -61,38 +69,24 @@ class Editor extends React.Component {
 
         this.props.history.push(`/events/${updatedEvent.id}`);
       })
-      .catch(error => console.log(error));
+      .catch(handleAjaxError);
   }
 
-  deleteEvent(e, eventId) {
+  deleteEvent(eventId) {
     const sure = confirm('Are you sure?');
     if (sure) {
       axios.delete(`events/${eventId}.json`)
         .then((response) => {
           if (response.status === 204) {
-            Alert.success('Event deleted successfully', {
-              position: 'top-right',
-              effect: 'slide',
-              timeout: 3500,
-              offset: 45,
-            });
+            success('Event deleted successfully');
+
             this.props.history.push('/events');
+
             const events = this.state.events.filter(event => event.id !== eventId);
             this.setState({ events });
           }
         })
-        .catch((error) => {
-          Alert.error('Something went wrong', {
-            position: 'top-right',
-            effect: 'slide',
-            timeout: 3500,
-            offset: 45,
-          });
-
-          console.log(error);
-        });
-    } else {
-      e.preventDefault();
+        .catch(handleAjaxError);
     }
   }
 

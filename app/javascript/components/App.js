@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Alert from 'react-s-alert';
 
 import 'react-s-alert/dist/s-alert-default.css';
 import './App.css';
 
+import { Alert } from '../packs/notifications';
 import Editor from './Editor';
 import PrivateRoute from './PrivateRoute';
 import LogInForm from './LogInForm';
