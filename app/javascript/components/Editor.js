@@ -5,17 +5,13 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Switch, withRouter } from 'react-router-dom';
 
-import { success, error } from '../packs/notifications';
+import { success } from '../packs/notifications';
+import { handleAjaxError } from '../packs/helpers';
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
 import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
-
-const handleAjaxError = (err) => {
-  error('Something went wrong');
-  console.log(err);
-};
 
 class Editor extends React.Component {
   constructor(props) {

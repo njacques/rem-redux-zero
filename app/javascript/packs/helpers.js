@@ -1,3 +1,5 @@
+import { error } from '../packs/notifications';
+
 export function getEventYear(el) {
   return el.event_date.substring(0, 4);
 }
@@ -51,3 +53,8 @@ export function strToDate(dateString) {
 export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
+
+export const handleAjaxError = (err) => {
+  error('Something went wrong');
+  console.log(err);
+};
