@@ -4,8 +4,8 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Switch, withRouter } from 'react-router-dom';
-import { success, error } from '../packs/notifications';
 
+import { success, error } from '../packs/notifications';
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
