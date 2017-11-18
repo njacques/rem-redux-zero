@@ -45,8 +45,9 @@ class Editor extends React.Component {
 
         const savedEvent = response.data;
         const events = [...this.state.events, savedEvent];
-        this.setState({ events });
 
+        // Needs to come before history.push, as we are redirecting to new event
+        this.setState({ events });
         this.props.history.push(withQueryString(`/events/${savedEvent.id}`));
       })
       .catch(handleAjaxError);
@@ -61,9 +62,8 @@ class Editor extends React.Component {
         const idx = events.findIndex(event => event.id === updatedEvent.id);
         events[idx] = updatedEvent;
 
-        this.setState({ events });
-
         this.props.history.push(withQueryString(`/events/${updatedEvent.id}`));
+        this.setState({ events });
       })
       .catch(handleAjaxError);
   }

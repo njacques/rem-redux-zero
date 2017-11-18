@@ -37,7 +37,6 @@ class EventForm extends React.Component {
     this.setState({
       event: {
         ...nextProps.event,
-        event_date: strToDate(nextProps.event.event_date),
       },
     });
   }
@@ -122,7 +121,7 @@ class EventForm extends React.Component {
             <input
               type='text'
               name='event_type'
-              defaultValue={event.event_type}
+              value={event.event_type}
               onChange={this.handleInputChange}
             />
           </div>
@@ -138,7 +137,7 @@ class EventForm extends React.Component {
               cols='30'
               rows='10'
               name='title'
-              defaultValue={event.title}
+              value={event.title}
               onChange={this.handleInputChange}
             />
           </div>
@@ -148,7 +147,7 @@ class EventForm extends React.Component {
             <input
               type='text'
               name='speaker'
-              defaultValue={event.speaker}
+              value={event.speaker}
               onChange={this.handleInputChange}
             />
           </div>
@@ -158,7 +157,7 @@ class EventForm extends React.Component {
             <input
               type='text'
               name='host'
-              defaultValue={event.host}
+              value={event.host}
               onChange={this.handleInputChange}
             />
           </div>
