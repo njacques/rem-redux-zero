@@ -85,6 +85,7 @@ class EventForm extends React.Component {
 
     return (
       <div className='errors'>
+        <h3>The following errors prohibited the event from being saved:</h3>
         <ul>
           {Object.values(errors).map(error => <li key={error}>{error}</li>)}
         </ul>
@@ -104,7 +105,7 @@ class EventForm extends React.Component {
     const cancelURL = event.id ? `/events/${event.id}` : '/events';
 
     return (
-      <div>
+      <div className='eventForm'>
         <h2>
           {title}
         </h2>
