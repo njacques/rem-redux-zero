@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Pikaday from 'react-pikaday/bundled';
 
+import EventNotFound from './EventNotFound';
 import {
   validateEvent,
   dateToString,
@@ -94,6 +95,8 @@ class EventForm extends React.Component {
   render() {
     const { event } = this.state;
 
+    if (!event.id && this.props.path === '/events/:id/edit') return <EventNotFound />;
+
     const title = event.id
       ? `${dateToString(event.event_date)} - ${event.event_type}`
       : 'New Event';
@@ -178,6 +181,7 @@ class EventForm extends React.Component {
 EventForm.propTypes = {
   event: PropTypes.shape(),
   onSubmit: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 EventForm.defaultProps = {
