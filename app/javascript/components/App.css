@@ -132,6 +132,10 @@ input.search{
   background: #f8e5ce;
 }
 
+.events-list li.no-results:hover {
+  background: #f6f6f6;
+}
+
 .events-list a{
   display: block;
   color: black;

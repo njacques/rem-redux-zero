@@ -42,6 +42,12 @@ class EventList extends React.Component {
       .filter(el => this.matchSearchTerm(el))
       .sort((a, b) => (new Date(b.event_date) - new Date(a.event_date)));
 
+    if (events.length === 0) {
+      return (
+        <li className='no-results'>No events found!</li>
+      );
+    }
+
     return (
       events.map(event => (
         <li
