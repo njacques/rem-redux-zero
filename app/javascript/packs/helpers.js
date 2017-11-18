@@ -1,3 +1,5 @@
+/* global location */
+
 import { error } from '../packs/notifications';
 
 export function getEventYear(el) {
@@ -58,6 +60,8 @@ export const handleAjaxError = (err) => {
   error('Something went wrong');
   console.log(err);
 };
+
+export const withQueryString = pathname => ({ pathname, search: location.search });
 
 // Private
 

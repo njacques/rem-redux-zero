@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import { withQueryString } from '../packs/helpers';
 import EventNotFound from './EventNotFound';
 
 const Event = ({ event, onDelete }) => {
@@ -11,7 +12,7 @@ const Event = ({ event, onDelete }) => {
     <div>
       <h2>
         {event.event_date} - {event.event_type}
-        <Link to={`/events/${event.id}/edit`}>Edit</Link>
+        <Link to={withQueryString(`/events/${event.id}/edit`)}>Edit</Link>
         <button className='delete' onClick={() => onDelete(event.id)}>Delete</button>
       </h2>
 

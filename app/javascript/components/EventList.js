@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import YearFilter from './YearFilter';
-import { unique, getEventYear, getSelectedYear } from '../packs/helpers';
+import {
+  unique,
+  getEventYear,
+  getSelectedYear,
+  withQueryString,
+} from '../packs/helpers';
 
 class EventList extends React.Component {
   constructor(props) {
@@ -54,12 +59,7 @@ class EventList extends React.Component {
           key={event.id}
           className={(this.props.activeId === event.id) ? 'active' : ''}
         >
-          <Link
-            to={{
-              pathname: `/events/${event.id}`,
-              search: this.props.location.search,
-            }}
-          >
+          <Link to={withQueryString(`/events/${event.id}`)}>
             {event.event_date} - {event.event_type}
           </Link>
         </li>
@@ -78,7 +78,7 @@ class EventList extends React.Component {
         <div className='events-container'>
           <h2>
             Events
-            <Link to='/events/new'>New Event</Link>
+            <Link to={withQueryString('/events/new')}>New Event</Link>
           </h2>
 
           <input

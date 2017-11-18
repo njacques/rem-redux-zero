@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Switch, withRouter } from 'react-router-dom';
 
 import { success } from '../packs/notifications';
-import { handleAjaxError } from '../packs/helpers';
+import { handleAjaxError, withQueryString } from '../packs/helpers';
 import NavBar from './NavBar';
 import EventList from './EventList';
 import Event from './Event';
@@ -47,7 +47,7 @@ class Editor extends React.Component {
         const events = [...this.state.events, savedEvent];
         this.setState({ events });
 
-        this.props.history.push(`/events/${savedEvent.id}`);
+        this.props.history.push(withQueryString(`/events/${savedEvent.id}`));
       })
       .catch(handleAjaxError);
   }
@@ -63,7 +63,7 @@ class Editor extends React.Component {
 
         this.setState({ events });
 
-        this.props.history.push(`/events/${updatedEvent.id}`);
+        this.props.history.push(withQueryString(`/events/${updatedEvent.id}`));
       })
       .catch(handleAjaxError);
   }
@@ -76,7 +76,7 @@ class Editor extends React.Component {
           if (response.status === 204) {
             success('Event deleted successfully');
 
-            this.props.history.push('/events');
+            this.props.history.push(withQueryString('/events'));
 
             const events = this.state.events.filter(event => event.id !== eventId);
             this.setState({ events });

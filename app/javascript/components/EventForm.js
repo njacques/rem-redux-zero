@@ -1,3 +1,5 @@
+/* global location */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -9,6 +11,7 @@ import {
   dateToString,
   strToDate,
   isEmptyObject,
+  withQueryString,
 } from '../packs/helpers';
 
 class EventForm extends React.Component {
@@ -72,7 +75,7 @@ class EventForm extends React.Component {
     } else {
       // convert date obj to string format that API is expecting
       event.event_date = dateToString(event.event_date);
-      console.log(event.event_date)
+      console.log(event.event_date);
       this.props.onSubmit(event);
     }
   }
@@ -172,7 +175,7 @@ class EventForm extends React.Component {
 
           <div className='form-actions'>
             <button type='submit'>Save</button>
-            <Link to={cancelURL}>Cancel</Link>
+            <Link to={withQueryString(cancelURL)}>Cancel</Link>
           </div>
         </form>
       </div>
