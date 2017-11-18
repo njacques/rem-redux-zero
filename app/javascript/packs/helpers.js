@@ -40,8 +40,8 @@ export function validateEvent(event) {
 
 export function dateToString(date) {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
 
   return `${year}-${month}-${day}`;
 }
@@ -58,3 +58,9 @@ export const handleAjaxError = (err) => {
   error('Something went wrong');
   console.log(err);
 };
+
+// Private
+
+function pad(n) {
+  return n < 10 ? `0${n}` : n;
+}
