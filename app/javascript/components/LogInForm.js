@@ -1,9 +1,11 @@
-/* global sessionStorage */
-
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'redux-zero/react';
+
+import actions from '../actions';
+
+const mapToProps = ({ loginError }) => ({ loginError });
 
 class LogInForm extends React.Component {
   constructor() {
@@ -12,7 +14,6 @@ class LogInForm extends React.Component {
       redirectToReferrer: false,
       email: 'user@example.com',
       password: 'user',
-      loginError: null,
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -22,23 +23,7 @@ class LogInForm extends React.Component {
 
   handleLogin(e) {
     e.preventDefault();
-
-    axios.post('http://localhost:3000/users/login', {
-      email: this.state.email,
-      password: this.state.password,
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          sessionStorage.setItem('jwt', response.data.auth_token);
-          sessionStorage.setItem('currentUser', response.data.email);
-          this.setState({ redirectToReferrer: true });
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          this.setState({ loginError: 'Invalid username or password' });
-        }
-      });
+    this.props.login(this.state.email, this.state.password);
   }
 
   handleEmailChange(e) {
@@ -66,7 +51,7 @@ class LogInForm extends React.Component {
 
           <div className='formErrors'>
             <p>
-              {this.state.loginError}
+              {this.props.loginError}
             </p>
           </div>
 
@@ -95,10 +80,12 @@ class LogInForm extends React.Component {
 
 LogInForm.propTypes = {
   location: PropTypes.shape(),
+  loginError: PropTypes.string,
 };
 
 LogInForm.defaultProps = {
   location: undefined,
+  loginError: null,
 };
 
-export default LogInForm;
+export default connect(mapToProps, actions)(LogInForm);

@@ -1,20 +1,13 @@
-/* global sessionStorage */
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const NavBar = () => (
+const NavBar = ({ currentUser }) => (
   <header>
     <nav>
       <span>
-        Logged in as: {sessionStorage.getItem('currentUser')}.
-        <Link
-          to='/login'
-          onClick={() => {
-            sessionStorage.setItem('jwt', null);
-          }}
-        >
-        Logout</Link>
+        Logged in as: {currentUser}.
+        <Link to='/logout'>Logout</Link>
       </span>
 
       <h1>
@@ -23,5 +16,9 @@ const NavBar = () => (
     </nav>
   </header>
 );
+
+NavBar.propTypes = {
+  currentUser: PropTypes.string.isRequired,
+};
 
 export default NavBar;

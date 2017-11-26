@@ -2,13 +2,15 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+
+import history from '../customHistory';
 import App from '../components/App';
 
 document.addEventListener('DOMContentLoaded', () => {
   render(
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>
+    </Router>
     , document.querySelector('#root'));
 });

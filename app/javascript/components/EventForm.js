@@ -1,5 +1,3 @@
-/* global location */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -74,7 +72,6 @@ class EventForm extends React.Component {
     } else {
       // convert date obj to string format that API is expecting
       event.event_date = dateToString(event.event_date);
-      console.log(event.event_date);
       this.props.onSubmit(event);
     }
   }
