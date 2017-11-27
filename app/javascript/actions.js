@@ -91,6 +91,8 @@ const actions = ({ getState, setState }) => ({
     jwt: undefined,
   }),
 
+  setSearchTerm: (state, searchTerm) => ({ searchTerm }),
+
 });
 
 export default actions;

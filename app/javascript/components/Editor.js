@@ -7,7 +7,7 @@ import { connect } from 'redux-zero/react';
 
 import actions from '../actions';
 import NavBar from './NavBar';
-import EventList from './EventList';
+import FilteredEventList from './FilteredEventList';
 import Event from './Event';
 import EventForm from './EventForm';
 import PropsRoute from './PropsRoute';
@@ -40,11 +40,7 @@ class Editor extends React.Component {
       <div>
         <NavBar currentUser={this.props.currentUser} />
 
-        <EventList
-          events={this.props.events}
-          activeId={Number(eventId)}
-          location={this.props.location}
-        />
+        <FilteredEventList activeId={Number(eventId)} />
 
         <div className='event-container'>
           <Switch>

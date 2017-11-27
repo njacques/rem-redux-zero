@@ -12,13 +12,14 @@ const initialState = {
   isAuthed: !!cookies.get('jwt'),
   jwt: cookies.get('jwt'),
   loginError: null,
-  selectedYear: parsed.year || null,
+  selectedYear: parsed.year || '',
+  searchTerm: '',
 };
 const store = createStore(initialState);
 
 history.listen((location) => {
   const parsed = queryString.parse(location.search);
-  store.setState({ selectedYear: parsed.year || null });
+  store.setState({ selectedYear: parsed.year || '' });
 });
 
 store.subscribe((state) => {

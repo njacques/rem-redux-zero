@@ -2,9 +2,21 @@
 
 import { error } from '../packs/notifications';
 
-export function getEventYear(el) {
-  return el.event_date.substring(0, 4);
-}
+const byEventDateDesc = (a, b) => (new Date(b.event_date) - new Date(a.event_date));
+
+function pad(n) { return n < 10 ? `0${n}` : n; }
+
+const getEventYear = event => event.event_date.substring(0, 4);
+
+const matchYear = year => event => getEventYear(event).match(year);
+
+const matchSearchTerm = searchTerm => (event) => {
+  const { id, published, created_at, updated_at, ...rest } = event;
+
+  return Object.values(rest).some(value => (
+    value.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+  ));
+};
 
 export function unique(value, index, self) {
   return self.indexOf(value) === index;
@@ -63,8 +75,15 @@ export const handleAjaxError = (err) => {
 
 export const withQueryString = pathname => ({ pathname, search: location.search });
 
-// Private
+export const getAvailableYears = events => (
+  events
+    .map(getEventYear)
+    .filter(unique)
+    .reverse()
+);
 
-function pad(n) {
-  return n < 10 ? `0${n}` : n;
-}
+export const getEventsByYear = (events, selectedYear, searchTerm) =>
+  events
+    .filter(matchYear(selectedYear))
+    .filter(matchSearchTerm(searchTerm))
+    .sort(byEventDateDesc);
